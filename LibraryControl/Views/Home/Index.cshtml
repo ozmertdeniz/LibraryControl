@@ -1,0 +1,69 @@
+﻿@model LibraryControl.ViewModels.HomeViewModel
+@{
+    ViewBag.Title = "Index";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+        <h4 class="display-6">Kütüphane Ceza Hesaplama Uygulamasına Hoşgeldiniz!</h4>
+        <form>
+            <div class="col-md-3">
+                <div class="col-md-10">
+                    <label>Ülke Seçiniz</label>
+                    @Html.DropDownListFor(model => model.SelectedCountryId, Model.CountryList, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label>Teslim Tarihi</label>
+                        @Html.TextBoxFor(model => model.TeslimTarihi, new { @class = "form-control", @type = "date", @Value = Model.TeslimTarihi.ToString("dd-MM-yyyy") })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label>İade Tarihi</label>
+                        @Html.TextBoxFor(model => model.IadeTarihi, new { @class = "form-control", @type = "date", @Value = Model.IadeTarihi.ToString("dd-MM-yyyy") })
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">Hesapla</button>
+        </form>
+    </div>
+    <br />
+}
+
+
+@if (Model.CezaliMi)
+{
+    <div class="jumbotron">
+        <div class="form-group">
+            <label>Teslim Tarihi</label>
+            <label>@Model.TeslimTarihi</label>
+        </div>
+        <div class="form-group">
+            <label>İade Tarihi</label>
+            <label>@Model.IadeTarihi</label>
+        </div>
+        <div class="form-group">
+            <label>İş Günü Sayısı</label>
+            <label>@Model.IsGunuSayisi</label>
+        </div>
+        <div class="form-group">
+            <label>Ceza tutarı</label>
+            <label>@Model.CezaTutari @Model.Currency</label>
+        </div>
+    </div>
+}
+else if (Model.SelectedCountryId > 0)
+{
+    <div class="jumbotron">
+        <div class="form-group">
+            <h4>Girdiğiniz tarihler arasında 10 iş günü olmadığı için cezai işlem uygulanmamaktadır.</h4>
+        </div>
+    </div>
+}
+
+
